@@ -1,0 +1,15 @@
+# Messages for calculator program
+
+welcome:      "Welcome! What's your name? "
+invalid_name: "Make sure to enter a valid name! "
+n1:           "Enter first number: "
+n2:           "Enter second number: "
+invalid_op:   "Invalid operator. Try again: "
+again:        "Do you want to perform another calculation? "
+invalid_num:  "=> Invalid input. Enter a number\n"
+goodbye:      "Thanks for using Kyle's calculator!"
+op_prompt:    "What operation? \n
+  1) add\n
+  2) subtract\n
+  3) multiply\n
+  4) divide\n"
