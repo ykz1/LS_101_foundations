@@ -25,6 +25,18 @@ end
 
 def clean_num(i)
   i.delete(' ').delete('%')
+
+  counter = i.length - 1
+  while counter >= 0
+    if i.include?('.') && (i[counter] == '.' || i[counter] == '0')
+      i.chop!
+    else
+      break
+    end
+    counter -= 1
+  end
+
+  i
 end
 
 loop do
