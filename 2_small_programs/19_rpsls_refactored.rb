@@ -6,7 +6,8 @@
 # 3. Renamed arguments in method 'display_results'
 # 4. Added commenting without code
 # 5. Changed previous 'counter' variable to 'user_choice_valid_matches'
-# 6. Store scoring in array
+# 6. Store scoring in hash, along with history
+# 7. Display round history at end of game
 
 # --- Method definitions
 def prompt(str)
@@ -34,6 +35,10 @@ end
 
 def display_score(name, score1, score2, int)
   prompt_w_round("Score: #{name} #{score1} - #{score2} opponent.", int)
+end
+
+def result_str(winner_name, winner_choice, loser_choice)
+  "#{winner_name}'s #{winner_choice} beats opponent's #{loser_choice}"
 end
 
 # --- Variable initializations
@@ -95,10 +100,10 @@ loop do
   choice_computer = VALID_OPT.sample
   if win?(choice_user_str, choice_computer)
     scores[:user] += 1
-    scores[:history] << username
+    scores[:history] << result_str(username, choice_user_str, choice_computer)
   elsif win?(choice_computer, choice_user_str)
     scores[:computer] += 1
-    scores[:history] << 'Opponent'
+    scores[:history] << result_str(username, choice_user_str, choice_computer)
   else
     scores[:history] << 'TIE'
   end
