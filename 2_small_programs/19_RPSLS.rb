@@ -1,20 +1,20 @@
 # Method 'display_score' feels wrong with 5 arguments...
 # ...but rubocop calls on lines being too long otherwise
 
+WIN_GRID = {  'scissors' => %w(paper lizard),
+              'paper' =>    %w(rock spock),
+              'rock' =>     %w(lizard scissors),
+              'lizard' =>   %w(spock paper),
+              'spock' =>    %w(scissors rock) }
+VALID_CHOICES = WIN_GRID.keys
+WIN_SCORE = 5
+
 choice_user = ''
 choice_user_str = ''
 username = ''
 round = 1
 score_user = 0
 score_computer = 0
-
-WIN_GRID = {  'scissors' => %w(paper lizard),
-              'paper' =>    %w(rock spock),
-              'rock' =>     %w(lizard scissors),
-              'lizard' =>   %w(spock paper),
-              'spock' =>    %w(scissors rock) }
-
-VALID_CHOICES = WIN_GRID.keys
 
 def prompt(str)
   puts "=> #{str}"
@@ -85,11 +85,11 @@ loop do
   prompt_w_round("...your opponent chose #{choice_computer}", round)
   display_results(choice_user_str, choice_computer, round)
 
-  if score_user == 5
+  if score_user == WIN_SCORE
     prompt "You win the game!"
     display_score("Final score:", username, score_user, score_computer, round)
     break
-  elsif score_computer == 5
+  elsif score_computer == WIN_SCORE
     prompt "You lost the game!"
     display_score("Final score:", username, score_user, score_computer, round)
     break
