@@ -1,6 +1,12 @@
-
 require "pry"
+
+# =============================================================================
+# VARIABLES
+
 message = ''
+
+# =============================================================================
+# METHODS
 
 def prompt(str)
   puts "=> #{str}"
@@ -8,18 +14,22 @@ end
 
 def initialize_deck
   dck = {}
-  %w[Two Three Four Five Six Seven Eight Nine Ten Jack Queen King Ace].each_with_index do |num, idx|
-    %w[Diamonds Clubs Hearts Spades].each do |suite|
+  names = %w[Two Three Four Five Six Seven Eight Nine Ten Jack Queen King Ace]
+  suites = %w[Diamonds Clubs Hearts Spades]
+
+  names.each_with_index do |num, idx|
+    suites.each do |suite|
       value = [idx + 2, 10].min
       value = 11 if num == 'Ace'
-      dck[suite[0] + (idx + 2).to_s] = {name: "#{num} of #{suite}",
-                                        value: value,
-                                        location: 'undealt' }
+      dck[suite[0] + (idx + 2).to_s] = {  name: "#{num} of #{suite}",
+                                          value: value,
+                                          location: 'undealt' }
     end
   end
   dck
 end
 
+# rubocop:disable Metrics/AbcSize
 def show_cards(dck, dlr, plyr, plyr_points)
   system "clear"
   puts "========================="
@@ -32,7 +42,9 @@ def show_cards(dck, dlr, plyr, plyr_points)
     prompt "  " + dck[card][:name] + ' ' + dck[card][:value].to_s
   end
 end
+# rubocop:enable Metrics/AbcSize
 
+# rubocop:disable Metrics/AbcSize
 def show_cards2(dck, dlr, plyr, plyr_points, dlr_points)
   system "clear"
   puts "========================="
@@ -46,6 +58,7 @@ def show_cards2(dck, dlr, plyr, plyr_points, dlr_points)
     prompt "  " + dck[card][:name] + ' ' + dck[card][:value].to_s
   end
 end
+# rubocop:enable Metrics/AbcSize
 
 def hit?
   prompt "Hit or stay?"
@@ -73,14 +86,12 @@ end
 
 def calculate_points(dck, str)
   points = 0
-  dck.each do |key, card|
+  dck.each do |_, card|
     if card[:location] == str
       points += card[:value]
-      #binding.pry
       if card[:value] == 11 && points > 21
         card[:value] = 1
         points -= 10
-        #binding.pry
       end
     end
   end
@@ -92,6 +103,7 @@ player_points = 0
 
 # Initialize_deck
 deck = initialize_deck
+
 # Deal initial cards
 dealer_hand = deck.keys.sample(2)
 deck[dealer_hand[0]][:location] = "dealer"
@@ -101,10 +113,11 @@ player_hand = deck.keys.sample(2)
 deck[player_hand[0]][:location] = "player"
 deck[player_hand[1]][:location] = "player"
 
-# Show cards 
+# Show cards
 player_points = calculate_points(deck, 'player')
 dealer_points = calculate_points(deck, 'dealer')
 show_cards(deck, dealer_hand, player_hand, player_points)
+
 # Player action
 loop do
   if hit?
@@ -126,7 +139,7 @@ if player_points <= 21
     if dealer_points < player_points
       dealer_hand << draw_card(deck, 'dealer')
       dealer_points = calculate_points(deck, 'dealer')
-    elsif dealer_points == player_points 
+    elsif dealer_points == player_points
       message = "It's a tie!"
       break
     elsif dealer_points > 21
@@ -137,6 +150,9 @@ if player_points <= 21
       break
     end
   end
+else
+  message = "Player busts, dealer wins!"
 end
 show_cards2(deck, dealer_hand, player_hand, player_points, dealer_points)
+puts
 prompt message
